@@ -1,3 +1,6 @@
-Curso de Criptografía y Seguridad 2019-1 
+# Criptografía y Seguridad
 
-Prácticas del curso
+## Autor
+
+* 	* **Nombre:** Estrada Gómez Cesar Derian
+ 	* **Correo:** c.derian_11@ciencias.unam.mx
