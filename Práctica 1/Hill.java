@@ -87,14 +87,10 @@ public class Hill {
                     matriz_nueva[0][m] = matriz_nueva[0][m]% alfabetoMayusculas.length();
                 }
 
-                for(int a=0; a<matriz_nueva[0].length; a++){
-                    System.out.println(matriz_nueva[0][a]);
-                }
-
                 //Traduciendo el valor numérico a letra
-                /*for(int m = 0; m < llave.length; m++){
+                for(int m = 0; m < llave.length; m++){
                     rtnCadena+=""+ alfabetoMayusculas.charAt(matriz_nueva[0][m]);
-                }*/
+                }
 
                 cadena = cadena.substring(i);
             }
