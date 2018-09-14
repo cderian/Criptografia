@@ -64,7 +64,6 @@ public class Hill {
                 }
             }else{
                 bloque = cadena.substring(0, i);
-                System.out.println(bloque);
 
                 //Obtener valor numérico de las letras
                 for (int l=0; l<bloque.length(); l++) {
@@ -72,19 +71,23 @@ public class Hill {
                     matriz_cif[0][l] = pos;
                 }
 
-                for(int a=0; a<matriz_cif[0].length; a++){
-                    System.out.println(matriz_cif[0][a]);
+                //Obteniendo el valor numérico cifrado de las letras
+                for(int m1 = 0; m1 < llave.length; m1++){
+                    int valor = 0;
+
+                    for(int m2 = 0; m2 < matriz_cif[0].length; m2++){
+                        valor+= (llave[m1][m2] * matriz_cif[0][m2]);
+                    }
+
+                    matriz_nueva[0][m1] = valor;
                 }
 
-                //Obteniendo el valor numérico cifrado de las letras
-                /*for(int m1 = 0; m1 < matriz_cif[0].length; m1++){
-                    for(int m2 = 0; m2 < matriz_cif[0].length; m2++){
-                        matriz_nueva[0][m1]+= (m1*m2);
-                    }
+                for(int a=0; a<matriz_cif[0].length; a++){
+                    System.out.println(matriz_nueva[0][a]);
                 }
 
                 //Obteniendo el valor numérico cifrado de las letras mod (long alfabeto)
-                for(int m = 0; m < llave[0].length; m++){
+                /*for(int m = 0; m < llave[0].length; m++){
                     matriz_nueva[0][m] = matriz_nueva[0][m]% alfabetoMayusculas.length();
                 }
 
