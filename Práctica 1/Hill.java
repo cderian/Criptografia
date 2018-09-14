@@ -79,13 +79,13 @@ public class Hill {
                         valor+= (llave[m1][m2] * matriz_cif[0][m2]);
                     }
 
-                    matriz_nueva[0][m1] = valor;
+                    matriz_nueva[0][m1] = valor % alfabetoMayusculas.length();
                 }
 
                 //Obteniendo el valor numérico cifrado de las letras mod (long alfabeto)
-                for(int m = 0; m < llave[0].length; m++){
+                /*for(int m = 0; m < llave[0].length; m++){
                     matriz_nueva[0][m] = matriz_nueva[0][m]% alfabetoMayusculas.length();
-                }
+                }*/
 
                 //Traduciendo el valor numérico a letra
                 for(int m = 0; m < llave.length; m++){
