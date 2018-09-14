@@ -82,17 +82,17 @@ public class Hill {
                     matriz_nueva[0][m1] = valor;
                 }
 
-                for(int a=0; a<matriz_cif[0].length; a++){
-                    System.out.println(matriz_nueva[0][a]);
-                }
-
                 //Obteniendo el valor numérico cifrado de las letras mod (long alfabeto)
-                /*for(int m = 0; m < llave[0].length; m++){
+                for(int m = 0; m < llave[0].length; m++){
                     matriz_nueva[0][m] = matriz_nueva[0][m]% alfabetoMayusculas.length();
                 }
 
+                for(int a=0; a<matriz_nueva[0].length; a++){
+                    System.out.println(matriz_nueva[0][a]);
+                }
+
                 //Traduciendo el valor numérico a letra
-                for(int m = 0; m < llave.length; m++){
+                /*for(int m = 0; m < llave.length; m++){
                     rtnCadena+=""+ alfabetoMayusculas.charAt(matriz_nueva[0][m]);
                 }*/
 
