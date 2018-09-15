@@ -1,8 +1,10 @@
 import java.lang.Exception;
+
 /**
  * Codificador y decodificador de textos con Cifrado de Hill.
  *
  * @author cderian
+ * @author len cortez
  */
 
 public class Hill {
@@ -12,6 +14,18 @@ public class Hill {
      * 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26
      */
     static String alfabetoMayusculas = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ"; 
+
+    /**
+     * Obtiene una matriz.
+     * Los valores de esta matriz representan la posición en el alfabeto
+     * que tengan las letras de una palabra clave.
+     *
+     * @param clave la palabra clave se la cual se obtendrá una matriz.
+     * @return matriz la matriz clave.
+     */
+    private static int[][] obtenerClave(String clave){
+        return null;
+    }
 
     /**
      * Obtiene el determinante de una matriz
@@ -186,12 +200,12 @@ public class Hill {
 
             String mensajeCodificado = codificar(mensaje, matriz);
             System.out.println("Texto codificado:   " + mensajeCodificado); 
+
+            // 3. Decodificar
+            //String cadenaDecodificada = decodificar(mensaje, matriz, 2); 
+            //System.out.println("Texto decodificado: " + cadenaDecodificada); 
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
-
-        // 3. Decodificar
-        //String cadenaDecodificada = decodificar(mensaje, matriz, 2); 
-        //System.out.println("Texto decodificado: " + cadenaDecodificada); 
     }
 }
