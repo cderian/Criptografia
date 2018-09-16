@@ -159,8 +159,22 @@ public class Hill {
     /**
      * 
      */
-    private static String decodificar(String cadena, int[][] llave) {
+    private static String decodificar(String cadena, int[][] llave) throws Exception{
         String rtnCadena = "";
+
+        //La matriz debe ser cuadrada.
+        if(llave.length != llave[0].length){
+            throw new Exception("La matriz no es cuadrada");
+        }
+
+        int det = determinante(llave);
+
+        //La matriz no es invertible,
+        if(det == 0){
+            throw new Exception("La matriz no es invertible. |M| = 0");
+        }
+
+
 
         return rtnCadena;
     }
@@ -171,7 +185,8 @@ public class Hill {
      */
     public static void main(String[] args) {
         try{
-            String mensaje = "CUADERNODECULTURACIENTIFICA";
+            //String mensaje = "CUADERNODECULTURACIENTIFICA";
+            String mensaje = "DIVULGANDOLASMATEMATICAS";
             String llave   = "FORTALEZA";
 
             // 1. Texto original
@@ -199,7 +214,16 @@ public class Hill {
             //int[][] matriz = obtenerClave(llave);
 
             String mensajeCodificado = codificar(mensaje, matriz);
-            System.out.println("Texto codificado:   " + mensajeCodificado); 
+            System.out.println("Texto codificado:   " + mensajeCodificado);
+
+            System.out.println("Matriz invertible");
+            int[][] matriz_nueva = matrizInversa(matriz, determinante(matriz));
+            for (int i=0; i<matriz_nueva.length; i++) {
+                for (int j=0; j<matriz_nueva.length; j++) {
+                    System.out.println(matriz_nueva[i][j]);
+                }
+            }
+
 
             // 3. Decodificar
             //String cadenaDecodificada = decodificar(mensaje, matriz, 2); 
