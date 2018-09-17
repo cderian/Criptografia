@@ -23,8 +23,27 @@ public class Hill {
      * @param clave la palabra clave se la cual se obtendrá una matriz.
      * @return matriz la matriz clave.
      */
-    private static int[][] obtenerClave(String clave){
-        return null;
+    private static int[][] obtenerClave(String clave) throws Exception{
+        int[][] matriz_clave = new int[0][0];
+        double raiz = Math.sqrt(clave.length());
+
+        if(raiz == (int)raiz){
+            int raizInt = (int)raiz;
+            matriz_clave = new int[raizInt][raizInt];
+            int bandera = 0;
+
+            for(int i=0; i<raizInt; i++){
+                for(int j=0; j<raizInt; j++){
+                    matriz_clave[i][j] = alfabetoMayusculas.indexOf(clave.charAt(bandera));
+                    bandera++;
+                }
+            }
+
+        }else{
+            throw new Exception("Llave inválida. No se puede formar una matriz nxn con dicha clave");
+        }
+
+        return matriz_clave;
     }
 
     /**
@@ -43,21 +62,28 @@ public class Hill {
             int[][] nm = new int[matriz.length-1][matriz.length-1];
 
             for(int j=0; j<matriz.length; j++){
+                
                 if(j!=i){
+                
                     for(int k=1; k<matriz.length; k++){
                         int indice=-1;
-                        if(j<i)
+                
+                        if(j<i){
                             indice=j;
-                        else if(j>i)
+                        }else if(j>i){
                             indice=j-1;
+                        }
+
                         nm[indice][k-1]=matriz[j][k];
                     }
                 }
             }
-            if(i%2==0)
+
+            if(i%2==0){
                 det+=matriz[i][0] * determinante(nm);
-            else
+            }else{
                 det-=matriz[i][0] * determinante(nm);
+            }
         }
 
         return det;
@@ -102,7 +128,7 @@ public class Hill {
 
         //La matriz debe ser cuadrada.
         if(llave.length != llave[0].length){
-            throw new Exception("La matriz no es cuadrada");
+            throw new Exception("La matriz clave no es cuadrada");
         }else{
             det = determinante(llave);
         }
@@ -121,36 +147,31 @@ public class Hill {
 
         while(cadena.length() > 0){
 
-            if(i > cadena.length()){
-                //Parte aún no funcional
-                break;
-            }else{
-                bloque = cadena.substring(0, i);
+            //Segmentando el texto
+            bloque = cadena.substring(0, i);
 
-                //Obteniendo valor numérico de las letras
-                for (int l=0; l<bloque.length(); l++) {
-                    int pos = alfabetoMayusculas.indexOf(bloque.charAt(l));
-                    matriz_cif[0][l] = pos;
-                }
-
-                //Obteniendo el valor numérico cifrado de las letras mod (long alfabeto)
-                for(int m1 = 0; m1 < llave.length; m1++){
-                    int valor = 0;
-
-                    for(int m2 = 0; m2 < matriz_cif[0].length; m2++){
-                        valor+= (llave[m1][m2] * matriz_cif[0][m2]);
-                    }
-
-                    matriz_nueva[0][m1] = valor % alfabetoMayusculas.length();
-                }
-
-                //Traduciendo el valor numérico a letra
-                for(int m = 0; m < llave.length; m++){
-                    rtnCadena+=""+ alfabetoMayusculas.charAt(matriz_nueva[0][m]);
-                }
-
-                cadena = cadena.substring(i);
+            //Obteniendo valor numérico de las letras
+            for (int l=0; l<bloque.length(); l++) {
+                int pos = alfabetoMayusculas.indexOf(bloque.charAt(l));
+                matriz_cif[0][l] = pos;
             }
+
+            //Obteniendo el valor numérico cifrado de las letras mod (long alfabeto)
+            for(int m1 = 0; m1 < llave.length; m1++){
+                int valor = 0;
+
+                for(int m2 = 0; m2 < matriz_cif[0].length; m2++){
+                    valor+= (llave[m1][m2] * matriz_cif[0][m2]);
+                }
+
+                matriz_nueva[0][m1] = valor % alfabetoMayusculas.length();
+            }
+
+            //Traduciendo el valor numérico a letra
+            for(int m = 0; m < llave.length; m++){
+                rtnCadena+=""+ alfabetoMayusculas.charAt(matriz_nueva[0][m]);
+            }
+            cadena = cadena.substring(i);
         }
 
         return rtnCadena;
@@ -161,20 +182,6 @@ public class Hill {
      */
     private static String decodificar(String cadena, int[][] llave) throws Exception{
         String rtnCadena = "";
-
-        //La matriz debe ser cuadrada.
-        if(llave.length != llave[0].length){
-            throw new Exception("La matriz no es cuadrada");
-        }
-
-        int det = determinante(llave);
-
-        //La matriz no es invertible,
-        if(det == 0){
-            throw new Exception("La matriz no es invertible. |M| = 0");
-        }
-
-
 
         return rtnCadena;
     }
@@ -187,7 +194,8 @@ public class Hill {
         try{
             //String mensaje = "CUADERNODECULTURACIENTIFICA";
             String mensaje = "DIVULGANDOLASMATEMATICAS";
-            String llave   = "FORTALEZA";
+            //String llave   = "FORTALEZA";
+            String llave   = "BCDAEFBAG";
 
             // 1. Texto original
             System.out.println("Texto original:     " + mensaje);
@@ -195,35 +203,10 @@ public class Hill {
             System.out.println();  
             
             // 2. Codificar
-            //int[][] matriz = new int[3][2];  
-
-            //Matriz 3x3 de Prueba 
-            int[][] matriz = new int[3][3];
-            matriz[0][0] = 1;
-            matriz[0][1] = 2;
-            matriz[0][2] = 3;
-            matriz[1][0] = 0;
-            matriz[1][1] = 4;
-            matriz[1][2] = 5;
-            matriz[2][0] = 1;
-            matriz[2][1] = 0;
-            matriz[2][2] = 6;
-
-            //NOTA: pueden agregar los métodos necesarios para obtener la matriz de la palabra clave
-
-            //int[][] matriz = obtenerClave(llave);
+            int[][] matriz = obtenerClave(llave);
 
             String mensajeCodificado = codificar(mensaje, matriz);
             System.out.println("Texto codificado:   " + mensajeCodificado);
-
-            System.out.println("Matriz invertible");
-            int[][] matriz_nueva = matrizInversa(matriz, determinante(matriz));
-            for (int i=0; i<matriz_nueva.length; i++) {
-                for (int j=0; j<matriz_nueva.length; j++) {
-                    System.out.println(matriz_nueva[i][j]);
-                }
-            }
-
 
             // 3. Decodificar
             //String cadenaDecodificada = decodificar(mensaje, matriz, 2); 
