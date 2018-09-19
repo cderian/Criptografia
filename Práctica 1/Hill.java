@@ -177,9 +177,20 @@ public class Hill {
         return rtnCadena;
     }
 
+
     /**
-     * 
+     * Descifra un texto con Cifrado de Hill.
+     *
+     * Antes de cifrar tiene que verificar que la matriz clave sea cuadrada y que
+     * sea invertible en Zn (n = tamaño del alfabeto).
+     * Si el determinante de la matriz y el tamaño del alfabeto son números primos
+     * entonces, la matriz es invertible en Zn.
+     *
+     * @param cadena el texto que se descifrará
+     * @param llave la matriz clave que ayudará a descifrar
+     * @return rtnCadena el texto descifrado
      */
+
     private static String decodificar(String cadena, int[][] llave) throws Exception{
         String rtnCadena = "";
 
@@ -236,6 +247,11 @@ public class Hill {
         return rtnCadena;
     }
 
+    /**
+     * Obtiene la matriz inversa de una matriz
+     * @param matriz la matriz a la cual se obtendrá su inversa.
+     * @return matriz_inv la inversa de la matriz
+     */
     public static int[][] matrizInversa(int[][] matriz) {
         int n = 1/determinante(matriz);
         int[][] matriz_inv = matrizTranspuesta(matrizCofactores(matriz));
@@ -245,6 +261,13 @@ public class Hill {
 
     }
 
+    /**
+     * Obtiene la multiplicacion de un escalar por una matriz
+     * @param n un entero, el escalar para multiplicar
+     * @param matriz la matriz a la cual se va a multiplicar.
+     * @return una multiplicación de una matriz por un escalar
+     */
+
     public static void multiplicarMatriz(int[][] matriz, int n) {
 
         for(int i=0; i<matriz.length; i++){
@@ -253,6 +276,12 @@ public class Hill {
             }
         }
     }
+
+    /**
+     * Obtiene los cofactores de una matriz
+     * @param matriz la matriz a la cual se obtendrá sus cofactores.
+     * @return matriz_nueva los matriz cofactores de la matriz
+     */
 
     public static int[][] matrizCofactores(int[][] matriz){
         int[][] matriz_nueva = new int[matriz.length][matriz.length];
@@ -282,6 +311,12 @@ public class Hill {
         }
         return matriz_nueva;
     }
+
+    /**
+     * Obtiene la matriz transpuesta de una matriz
+     * @param matriz la matriz a la cual se obtendrá su transpuesta.
+     * @return matriz_nueva la transpuesta de la matriz
+     */
 
     public static int[][] matrizTranspuesta(int [][] matriz){
         int[][] matriz_nueva = new int[matriz[0].length][matriz.length];
