@@ -183,8 +183,117 @@ public class Hill {
     private static String decodificar(String cadena, int[][] llave) throws Exception{
         String rtnCadena = "";
 
+        int det = 0;
+
+        //La matriz debe ser cuadrada.
+        if(llave.length != llave[0].length){
+            throw new Exception("La matriz clave no es cuadrada");
+        }else{
+            det = determinante(llave);
+        }
+
+        int mcd = mcd(det, alfabetoMayusculas.length());
+
+        //La matriz debe ser invertible en Z(27).
+        if(mcd != 1){
+            throw new Exception("El |M| y |Alfabeto| deben ser primos");
+        }
+
+        String bloque = "";
+        int i = llave.length;
+        int[][] matriz_inv = new int[1][llave.length];
+        int[][] matriz_nueva = new int[1][llave.length];
+
+        while(cadena.length() > 0){
+
+            //Segmentando el texto
+            bloque = cadena.substring(0, i);
+
+            //Obteniendo valor numérico de las letras
+            for (int l=0; l<bloque.length(); l++) {
+                int pos = alfabetoMayusculas.indexOf(bloque.charAt(l));
+                matriz_inv[0][l] = pos;
+            }
+
+            //Obteniendo el valor numérico cifrado de las letras mod (long alfabeto)
+            for(int m1 = 0; m1 < llave.length; m1++){
+                int valor = 0;
+
+                for(int m2 = 0; m2 < matriz_inv[0].length; m2++){
+                    valor+= (llave[m1][m2] * matriz_inv[0][m2]);
+                }
+
+                matriz_nueva[0][m1] = valor % alfabetoMayusculas.length();
+            }
+
+            //Traduciendo el valor numérico a letra
+            for(int m = 0; m < llave.length; m++){
+                rtnCadena+=""+ alfabetoMayusculas.charAt(matriz_nueva[0][m]);
+            }
+            cadena = cadena.substring(i);
+        }
+
         return rtnCadena;
     }
+
+    public static int[][] matrizInversa(int[][] matriz) {
+        int n = 1/determinante(matriz);
+        int[][] matriz_inv = matrizTranspuesta(matrizCofactores(matriz));
+        multiplicarMatriz(matriz_inv, n);
+
+        return matriz_inv;
+
+    }
+
+    public static void multiplicarMatriz(int[][] matriz, int n) {
+
+        for(int i=0; i<matriz.length; i++){
+            for(int j=0; j<matriz.length; j++){
+                matriz[i][j]*=n;
+            }
+        }
+    }
+
+    public static int[][] matrizCofactores(int[][] matriz){
+        int[][] matriz_nueva = new int[matriz.length][matriz.length];
+
+        for(int i=0; i<matriz.length; i++) {
+            for(int j=0; j<matriz.length; j++) {
+
+                int[][] det = new int[matriz.length-1][matriz.length-1];
+                int detValor;
+
+                for(int k=0; k<matriz.length; k++) {
+                    if(k!=i) {
+                        for(int l=0; l<matriz.length; l++) {
+                            
+                            if(l!=j) {
+                                int indice1 = k<i ? k : k-1 ;
+                                int indice2 = l<j ? l : l-1 ;
+                                det[indice1][indice2] = matriz[k][l];
+                            }
+                        }
+                    }
+                }
+
+                detValor = determinante(det);
+                matriz_nueva[i][j] = detValor * (int)Math.pow(-1, i+j+2);
+            }
+        }
+        return matriz_nueva;
+    }
+
+    public static int[][] matrizTranspuesta(int [][] matriz){
+        int[][] matriz_nueva = new int[matriz[0].length][matriz.length];
+
+        for(int i=0; i<matriz.length; i++){
+            for(int j=0; j<matriz.length; j++){
+                matriz_nueva[i][j] = matriz[j][i];
+            }
+        }
+        return matriz_nueva;
+    }
+
 
 
     /**
@@ -208,9 +317,9 @@ public class Hill {
             String mensajeCodificado = codificar(mensaje, matriz);
             System.out.println("Texto codificado:   " + mensajeCodificado);
 
-            // 3. Decodificar
-            //String cadenaDecodificada = decodificar(mensaje, matriz, 2); 
-            //System.out.println("Texto decodificado: " + cadenaDecodificada); 
+            //3. Decodificar
+            String cadenaDecodificada = decodificar(mensaje, matriz); 
+            System.out.println("Texto decodificado: " + cadenaDecodificada);
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
