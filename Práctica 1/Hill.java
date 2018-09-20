@@ -9,7 +9,7 @@ import java.lang.Exception;
 
 public class Hill {
 
-    static InversoMultiplicativo iv = new InversoMultiplicativo();
+    static Algebra operaciones = new Algebra();
 
     /*
      * A B C D E F G H I J K  L  M  N  Ñ  O  P  Q  R  S  T  U  V  W  X  Y  Z 
@@ -49,71 +49,6 @@ public class Hill {
     }
 
     /**
-     * Obtiene el determinante de una matriz
-     * @param matriz la matriz a la cual se obtendrá su determinante.
-     * @return det el determinante de la matriz
-     */
-
-    private static int determinante(int[][] matriz){
-        int det = 0;
-
-        if(matriz.length == 2){
-            det = (matriz[0][0]*matriz[1][1]) - (matriz[0][1]*matriz[1][0]);
-        }
-
-        for(int i=0; i<matriz.length; i++){
-            int[][] nm = new int[matriz.length-1][matriz.length-1];
-
-            for(int j=0; j<matriz.length; j++){
-                
-                if(j!=i){
-                
-                    for(int k=1; k<matriz.length; k++){
-                        int indice=-1;
-                
-                        if(j<i){
-                            indice=j;
-                        }else if(j>i){
-                            indice=j-1;
-                        }
-
-                        nm[indice][k-1]=matriz[j][k];
-                    }
-                }
-            }
-
-            if(i%2==0){
-                det+=matriz[i][0] * determinante(nm);
-            }else{
-                det-=matriz[i][0] * determinante(nm);
-            }
-        }
-
-        return det;
-    }
-
-    /**
-     * Obtiene el máximo común divisor de dos números.
-     * @param n el primer número.
-     * @param m el segundo número.
-     * @return res el mcd de n y m.
-     */
-
-    public static int mcd(int n, int m){
-        int a = Math.max(n,m);
-        int b = Math.min(n,m);
-        int res;
-
-        do{
-            res = b;
-            b = a%b;
-            a = res;
-        }while(b != 0);
-
-        return res;
-    }
-
-    /**
      * Cifra un texto con Cifrado de Hill.
      *
      * Antes de cifrar tiene que verificar que la matriz clave sea cuadrada y que
@@ -135,10 +70,10 @@ public class Hill {
         if(llave.length != llave[0].length){
             throw new Exception("La matriz clave no es cuadrada");
         }else{
-            det = determinante(llave);
+            det = operaciones.determinante(llave);
         }
 
-        int mcd = mcd(det, alfabetoMayusculas.length());
+        int mcd = operaciones.mcd(det, alfabetoMayusculas.length());
 
         //La matriz debe ser invertible en Z(27).
         if(mcd != 1){
@@ -205,10 +140,10 @@ public class Hill {
         if(llave.length != llave[0].length){
             throw new Exception("La matriz clave no es cuadrada");
         }else{
-            det = determinante(llave);
+            det = operaciones.determinante(llave);
         }
 
-        int mcd = mcd(det, alfabetoMayusculas.length());
+        int mcd = operaciones.mcd(det, alfabetoMayusculas.length());
 
         //La matriz debe ser invertible en Z(27).
         if(mcd == 0){
@@ -261,9 +196,9 @@ public class Hill {
      */
 
     public static int[][] matrizInversa(int[][] matriz) {
-        int det = determinante(matriz);
+        int det = operaciones.determinante(matriz);
         int mod = alfabetoMayusculas.length();
-        int inv = iv.moduloInverso(det, mod);
+        int inv = operaciones.moduloInverso(det, mod);
 
         int[][] matriz_inversa = matrizCofactores(matriz);
         matriz_inversa = matrizTranspuesta(matriz_inversa);
@@ -333,7 +268,7 @@ public class Hill {
                     }
                 }
 
-                detValor = determinante(det);
+                detValor = operaciones.determinante(det);
                 matriz_nueva[i][j] = detValor * (int)Math.pow(-1, i+j+2);
             }
         }
@@ -365,10 +300,10 @@ public class Hill {
 
     public static void main(String[] args) {
         try{
-            //String mensaje = "CUADERNODECULTURACIENTIFICA";
-            String mensaje = "DIVULGANDOLASMATEMATICAS";
-            //String llave   = "FORTALEZA";
-            String llave   = "BCDAEFBAG";
+            String mensaje = "CUADERNODECULTURACIENTIFICA";
+            //String mensaje = "DIVULGANDOLASMATEMATICAS";
+            String llave   = "FORTALEZA";
+            //String llave   = "BCDAEFBAG";
 
             // 1. Texto original
             System.out.println("Texto original:     " + mensaje);
