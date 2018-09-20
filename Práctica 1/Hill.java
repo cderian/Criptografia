@@ -214,11 +214,44 @@ public class Hill {
         if(mcd == 0){
             throw new Exception("La matriz clave no es invertible. No se puede decodificar.");
         }
-        
-        rtnCadena = codificar(cadena, matrizInversa(llave));
 
-        return rtnCadena;
-        
+        int[][] inversa = matrizInversa(llave);
+
+        String bloque = "";
+        int i = inversa.length;
+        int[][] matriz_cif = new int[1][inversa.length];
+        int[][] matriz_nueva = new int[1][inversa.length];
+
+        while(cadena.length() > 0){
+
+            //Segmentando el texto
+            bloque = cadena.substring(0, i);
+
+            //Obteniendo valor numérico de las letras
+            for (int l=0; l<bloque.length(); l++) {
+                int pos = alfabetoMayusculas.indexOf(bloque.charAt(l));
+                matriz_cif[0][l] = pos;
+            }
+
+            //Obteniendo el valor numérico cifrado de las letras mod (long alfabeto)
+            for(int m1 = 0; m1 < inversa.length; m1++){
+                int valor = 0;
+
+                for(int m2 = 0; m2 < matriz_cif[0].length; m2++){
+                    valor+= (inversa[m1][m2] * matriz_cif[0][m2]);
+                }
+
+                matriz_nueva[0][m1] = valor % alfabetoMayusculas.length();
+            }
+
+            //Traduciendo el valor numérico a letra
+            for(int m = 0; m < inversa.length; m++){
+                rtnCadena+=""+ alfabetoMayusculas.charAt(matriz_nueva[0][m]);
+            }
+            cadena = cadena.substring(i);
+        }
+
+        return rtnCadena;        
     }
 
     /**
@@ -239,6 +272,14 @@ public class Hill {
         for(int i=0; i<matriz_inversa.length; i++){
             for(int j=0; j<matriz_inversa.length; j++){
                 matriz_inversa[i][j] = matriz_inversa[i][j]%mod;
+            }
+        }
+
+        for(int i=0; i<matriz_inversa.length; i++){
+            for(int j=0; j<matriz_inversa.length; j++){
+                if(matriz_inversa[i][j] < 0){
+                    matriz_inversa[i][j]+= mod;
+                }
             }
         }
 
@@ -341,10 +382,11 @@ public class Hill {
             System.out.println("Texto codificado:   " + mensajeCodificado);
 
             //3. Decodificar
-            String cadenaDecodificada = decodificar(mensaje, matriz); 
+            String cadenaDecodificada = decodificar(mensajeCodificado, matriz); 
             System.out.println("Texto decodificado: " + cadenaDecodificada);
         }catch(Exception e){
-            System.out.println(e.getMessage());
+            e.printStackTrace();
+            //System.out.println(e.getMessage());
         }
     }
 }
