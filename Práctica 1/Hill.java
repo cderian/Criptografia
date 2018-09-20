@@ -51,6 +51,7 @@ public class Hill {
      * @param matriz la matriz a la cual se obtendrá su determinante.
      * @return det el determinante de la matriz
      */
+
     private static int determinante(int[][] matriz){
         int det = 0;
 
@@ -95,6 +96,7 @@ public class Hill {
      * @param m el segundo número.
      * @return res el mcd de n y m.
      */
+
     public static int mcd(int n, int m){
         int a = Math.max(n,m);
         int b = Math.min(n,m);
@@ -121,11 +123,12 @@ public class Hill {
      * @param llave la matriz clave que ayudará a cifrar
      * @return rtnCadena el texto cifrado
      */
+
     private static String codificar(String cadena, int[][] llave) throws Exception{
         String rtnCadena = "";
 
         int det = 0;
-
+        
         //La matriz debe ser cuadrada.
         if(llave.length != llave[0].length){
             throw new Exception("La matriz clave no es cuadrada");
@@ -139,7 +142,7 @@ public class Hill {
         if(mcd != 1){
             throw new Exception("El |M| y |Alfabeto| deben ser primos");
         }
-
+        
         String bloque = "";
         int i = llave.length;
         int[][] matriz_cif = new int[1][llave.length];
@@ -193,9 +196,9 @@ public class Hill {
 
     private static String decodificar(String cadena, int[][] llave) throws Exception{
         String rtnCadena = "";
-
+    	
         int det = 0;
-
+        
         //La matriz debe ser cuadrada.
         if(llave.length != llave[0].length){
             throw new Exception("La matriz clave no es cuadrada");
@@ -209,42 +212,11 @@ public class Hill {
         if(mcd != 1){
             throw new Exception("El |M| y |Alfabeto| deben ser primos");
         }
-
-        String bloque = "";
-        int i = llave.length;
-        int[][] matriz_inv = new int[1][llave.length];
-        int[][] matriz_nueva = new int[1][llave.length];
-
-        while(cadena.length() > 0){
-
-            //Segmentando el texto
-            bloque = cadena.substring(0, i);
-
-            //Obteniendo valor numérico de las letras
-            for (int l=0; l<bloque.length(); l++) {
-                int pos = alfabetoMayusculas.indexOf(bloque.charAt(l));
-                matriz_inv[0][l] = pos;
-            }
-
-            //Obteniendo el valor numérico cifrado de las letras mod (long alfabeto)
-            for(int m1 = 0; m1 < llave.length; m1++){
-                int valor = 0;
-
-                for(int m2 = 0; m2 < matriz_inv[0].length; m2++){
-                    valor+= (llave[m1][m2] * matriz_inv[0][m2]);
-                }
-
-                matriz_nueva[0][m1] = valor % alfabetoMayusculas.length();
-            }
-
-            //Traduciendo el valor numérico a letra
-            for(int m = 0; m < llave.length; m++){
-                rtnCadena+=""+ alfabetoMayusculas.charAt(matriz_nueva[0][m]);
-            }
-            cadena = cadena.substring(i);
-        }
+        
+        rtnCadena = codificar(cadena, matrizInversa(llave));
 
         return rtnCadena;
+        
     }
 
     /**
@@ -252,10 +224,13 @@ public class Hill {
      * @param matriz la matriz a la cual se obtendrá su inversa.
      * @return matriz_inv la inversa de la matriz
      */
+
     public static int[][] matrizInversa(int[][] matriz) {
-        int n = 1/determinante(matriz);
+        //double n = 1.0/determinante(matriz);
+        //System.out.println(1/determinante(matriz));
+        //System.out.println(n);
         int[][] matriz_inv = matrizTranspuesta(matrizCofactores(matriz));
-        multiplicarMatriz(matriz_inv, n);
+        multiplicarMatriz(matriz_inv, 1.0/determinante(matriz));
 
         return matriz_inv;
 
@@ -268,11 +243,13 @@ public class Hill {
      * @return una multiplicación de una matriz por un escalar
      */
 
-    public static void multiplicarMatriz(int[][] matriz, int n) {
+    public static void multiplicarMatriz(int[][] matriz, double n) {
 
         for(int i=0; i<matriz.length; i++){
             for(int j=0; j<matriz.length; j++){
-                matriz[i][j]*=n;
+            	Double d = matriz[i][j]*n;
+            	Integer m = d.intValue(); 
+                matriz[i][j] = m;
             }
         }
     }
@@ -334,6 +311,7 @@ public class Hill {
     /**
      * Método principal
      */
+
     public static void main(String[] args) {
         try{
             //String mensaje = "CUADERNODECULTURACIENTIFICA";
