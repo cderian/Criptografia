@@ -9,7 +9,7 @@ import java.lang.Exception;
 
 public class Hill {
 
-    public static inversoMultiplicativo iv = new inversoMultiplicativo();
+    static InversoMultiplicativo iv = new InversoMultiplicativo();
 
     /*
      * A B C D E F G H I J K  L  M  N  Ñ  O  P  Q  R  S  T  U  V  W  X  Y  Z 
@@ -215,7 +215,7 @@ public class Hill {
             throw new Exception("La matriz clave no es invertible. No se puede decodificar.");
         }
         
-        //rtnCadena = codificar(cadena, matrizInversa(llave));
+        rtnCadena = codificar(cadena, matrizInversa(llave));
 
         return rtnCadena;
         
@@ -228,20 +228,21 @@ public class Hill {
      */
 
     public static int[][] matrizInversa(int[][] matriz) {
-        long inv = iv.moduloInverso(determinante(matriz));
-        double n = 1.0/determinante(matriz);
-        int[][] matriz_inv = matrizTranspuesta(matrizCofactores(matriz));
-        double[][] matriz_inversa = multiplicarMatriz(matriz_inv, n);
+        int det = determinante(matriz);
+        int mod = alfabetoMayusculas.length();
+        int inv = iv.moduloInverso(det, mod);
+
+        int[][] matriz_inversa = matrizCofactores(matriz);
+        matriz_inversa = matrizTranspuesta(matriz_inversa);
+        matriz_inversa = multiplicarMatriz(matriz_inversa, inv);
 
         for(int i=0; i<matriz_inversa.length; i++){
             for(int j=0; j<matriz_inversa.length; j++){
-                //matriz_inversa[i][j] =
-                System.out.println(matriz_inversa[i][j]);
+                matriz_inversa[i][j] = matriz_inversa[i][j]%mod;
             }
         }
 
         return matriz_inversa;
-
     }
 
     /**
@@ -251,8 +252,8 @@ public class Hill {
      * @return una multiplicación de una matriz por un escalar
      */
 
-    public static double[][] multiplicarMatriz(int[][] matriz, double n) {
-        double[][] m = new double[matriz.length][matriz[0].length];
+    public static int[][] multiplicarMatriz(int[][] matriz, int n) {
+        int[][] m = new int[matriz.length][matriz[0].length];
 
         for(int i=0; i<matriz.length; i++){
             for(int j=0; j<matriz.length; j++){

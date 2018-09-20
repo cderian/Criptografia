@@ -1,6 +1,6 @@
-public class inversoMultiplicativo{
+public class InversoMultiplicativo{
 
-    private static long inv = 0;
+    private static int inv = 0;
 
     /**
      * Procedimiento que calcula el módulo inverso: (a^-1)( mod n)
@@ -9,8 +9,8 @@ public class inversoMultiplicativo{
      * Si el valor del inverso es calculado, entonces es almacenado
      * en la variable global inv
      */
-    public static long moduloInverso(long a, long n){
-    	long[] resp = new long[3];           
+    public static int moduloInverso(int a, int n){
+    	int[] resp = new int[3];
     	resp = euclidesExtendido(a,n);
 
     	if(resp[0]>1){
@@ -34,15 +34,15 @@ public class inversoMultiplicativo{
      * donde:
      *    mcd(a,b) = d = a*x + b*y
      */
-    public static long[] euclidesExtendido(long a, long b) {
-    	long[] resp = new long[3];
-    	long x=0,y=0,d=0;
+    public static int[] euclidesExtendido(int a, int b) {
+    	int[] resp = new int[3];
+    	int x=0,y=0,d=0;
 
     	if(b==0){
     		resp[0] = a; resp[1] = 1; resp[2] = 0;
     	}else{
-    		long x2 = 1, x1 = 0, y2 = 0, y1 = 1;
-    		long q = 0, r = 0;
+    		int x2 = 1, x1 = 0, y2 = 0, y1 = 1;
+    		int q = 0, r = 0;
 
     		while(b>0){
     			q = (a/b);
@@ -67,6 +67,6 @@ public class inversoMultiplicativo{
 
 
 	public static void main(String[] args) {
-		System.out.println(moduloInverso(245, 30));
+		System.out.println(moduloInverso(22, 27));
 	}
 }
