@@ -9,6 +9,8 @@ import java.lang.Exception;
 
 public class Hill {
 
+    public static inversoMultiplicativo iv = new inversoMultiplicativo();
+
     /*
      * A B C D E F G H I J K  L  M  N  Ñ  O  P  Q  R  S  T  U  V  W  X  Y  Z 
      * 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26
@@ -209,11 +211,11 @@ public class Hill {
         int mcd = mcd(det, alfabetoMayusculas.length());
 
         //La matriz debe ser invertible en Z(27).
-        if(mcd != 1){
-            throw new Exception("El |M| y |Alfabeto| deben ser primos");
+        if(mcd == 0){
+            throw new Exception("La matriz clave no es invertible. No se puede decodificar.");
         }
         
-        rtnCadena = codificar(cadena, matrizInversa(llave));
+        //rtnCadena = codificar(cadena, matrizInversa(llave));
 
         return rtnCadena;
         
@@ -226,13 +228,19 @@ public class Hill {
      */
 
     public static int[][] matrizInversa(int[][] matriz) {
-        //double n = 1.0/determinante(matriz);
-        //System.out.println(1/determinante(matriz));
-        //System.out.println(n);
+        long inv = iv.moduloInverso(determinante(matriz));
+        double n = 1.0/determinante(matriz);
         int[][] matriz_inv = matrizTranspuesta(matrizCofactores(matriz));
-        multiplicarMatriz(matriz_inv, 1.0/determinante(matriz));
+        double[][] matriz_inversa = multiplicarMatriz(matriz_inv, n);
 
-        return matriz_inv;
+        for(int i=0; i<matriz_inversa.length; i++){
+            for(int j=0; j<matriz_inversa.length; j++){
+                //matriz_inversa[i][j] =
+                System.out.println(matriz_inversa[i][j]);
+            }
+        }
+
+        return matriz_inversa;
 
     }
 
@@ -243,15 +251,16 @@ public class Hill {
      * @return una multiplicación de una matriz por un escalar
      */
 
-    public static void multiplicarMatriz(int[][] matriz, double n) {
+    public static double[][] multiplicarMatriz(int[][] matriz, double n) {
+        double[][] m = new double[matriz.length][matriz[0].length];
 
         for(int i=0; i<matriz.length; i++){
             for(int j=0; j<matriz.length; j++){
-            	Double d = matriz[i][j]*n;
-            	Integer m = d.intValue(); 
-                matriz[i][j] = m;
+                m[i][j] = matriz[i][j]*n;
             }
         }
+
+        return m;
     }
 
     /**
