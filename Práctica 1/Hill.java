@@ -50,37 +50,13 @@ public class Hill {
     }
 
     /**
-     * Cifra un texto con Cifrado de Hill.
-     *
-     * Antes de cifrar tiene que verificar que la matriz clave sea cuadrada y que
-     * sea invertible en Zn (n = tamaño del alfabeto).
-     * Si el determinante de la matriz y el tamaño del alfabeto son números primos
-     * entonces, la matriz es invertible en Zn.
-     *
-     * @param cadena el texto que se cifrará
-     * @param llave la matriz clave que ayudará a cifrar
-     * @return rtnCadena el texto cifrado
+     * Obtiene un texto.
+     * @param cadena la cadena que se traducirá.
+     * @param llave la matriz clave que ayudará al descifrado.
+     * @return el texto traducido.
      */
-
-    private static String codificar(String cadena, int[][] llave) throws Exception{
-        String rtnCadena = "";
-
-        int det = 0;
-        
-        //La matriz debe ser cuadrada.
-        if(llave.length != llave[0].length){
-            throw new Exception("La matriz clave no es cuadrada");
-        }else{
-            det = operaciones.determinante(llave);
-        }
-
-        int mcd = operaciones.mcd(det, alfabetoMayusculas.length());
-
-        //La matriz debe ser invertible en Z(27).
-        if(mcd != 1){
-            throw new Exception("El |M| y |Alfabeto| deben ser primos");
-        }
-        
+    private static String obtenerTexto(String cadena, int[][] llave){
+        String texto = "";
         String bloque = "";
         int i = llave.length;
         int[][] matriz_cif = new int[1][llave.length];
@@ -110,11 +86,46 @@ public class Hill {
 
             //Traduciendo el valor numérico a letra
             for(int m = 0; m < llave.length; m++){
-                rtnCadena+=""+ alfabetoMayusculas.charAt(matriz_nueva[0][m]);
+                texto+=""+ alfabetoMayusculas.charAt(matriz_nueva[0][m]);
             }
             cadena = cadena.substring(i);
         }
+        
+        return texto;
+    }
 
+    /**
+     * Cifra un texto con Cifrado de Hill.
+     *
+     * Antes de cifrar tiene que verificar que la matriz clave sea cuadrada y que
+     * sea invertible en Zn (n = tamaño del alfabeto).
+     * Si el determinante de la matriz y el tamaño del alfabeto son números primos
+     * entonces, la matriz es invertible en Zn.
+     *
+     * @param cadena el texto que se cifrará
+     * @param llave la matriz clave que ayudará a cifrar
+     * @return rtnCadena el texto cifrado
+     */
+    private static String codificar(String cadena, int[][] llave) throws Exception{
+        String rtnCadena = "";
+
+        int det = 0;
+        
+        //La matriz debe ser cuadrada.
+        if(llave.length != llave[0].length){
+            throw new Exception("La matriz clave no es cuadrada");
+        }else{
+            det = operaciones.determinante(llave);
+        }
+
+        int mcd = operaciones.mcd(det, alfabetoMayusculas.length());
+
+        //La matriz debe ser invertible en Z(27).
+        if(mcd != 1){
+            throw new Exception("El |M| y |Alfabeto| deben ser primos");
+        }
+        
+        rtnCadena = obtenerTexto(cadena, llave);
         return rtnCadena;
     }
 
@@ -131,7 +142,6 @@ public class Hill {
      * @param llave la matriz clave que ayudará a descifrar
      * @return rtnCadena el texto descifrado
      */
-
     private static String decodificar(String cadena, int[][] llave) throws Exception{
         String rtnCadena = "";
     	
@@ -153,52 +163,18 @@ public class Hill {
 
         int[][] inversa = matriz.matrizInversa(llave);
 
-        String bloque = "";
-        int i = inversa.length;
-        int[][] matriz_cif = new int[1][inversa.length];
-        int[][] matriz_nueva = new int[1][inversa.length];
-
-        while(cadena.length() > 0){
-
-            //Segmentando el texto
-            bloque = cadena.substring(0, i);
-
-            //Obteniendo valor numérico de las letras
-            for (int l=0; l<bloque.length(); l++) {
-                int pos = alfabetoMayusculas.indexOf(bloque.charAt(l));
-                matriz_cif[0][l] = pos;
-            }
-
-            //Obteniendo el valor numérico cifrado de las letras mod (long alfabeto)
-            for(int m1 = 0; m1 < inversa.length; m1++){
-                int valor = 0;
-
-                for(int m2 = 0; m2 < matriz_cif[0].length; m2++){
-                    valor+= (inversa[m1][m2] * matriz_cif[0][m2]);
-                }
-
-                matriz_nueva[0][m1] = valor % alfabetoMayusculas.length();
-            }
-
-            //Traduciendo el valor numérico a letra
-            for(int m = 0; m < inversa.length; m++){
-                rtnCadena+=""+ alfabetoMayusculas.charAt(matriz_nueva[0][m]);
-            }
-            cadena = cadena.substring(i);
-        }
-
+        rtnCadena = obtenerTexto(cadena, inversa);
         return rtnCadena;        
     }
 
     /**
      * Método principal
      */
-
     public static void main(String[] args) {
         try{
             String mensaje = "CUADERNODECULTURACIENTIFICA";
-            //String mensaje = "DIVULGANDOLASMATEMATICAS";
             String llave   = "FORTALEZA";
+            //String mensaje = "DIVULGANDOLASMATEMATICAS";
             //String llave   = "BCDAEFBAG";
 
             // 1. Texto original
@@ -217,7 +193,6 @@ public class Hill {
             System.out.println("Texto decodificado: " + cadenaDecodificada);
         }catch(Exception e){
             e.printStackTrace();
-            //System.out.println(e.getMessage());
         }
     }
 }
