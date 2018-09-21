@@ -174,9 +174,7 @@ public class Hill {
         try{
             String mensaje = "CUADERNODECULTURACIENTIFICA";
             String llave   = "FORTALEZA";
-            //String mensaje = "DIVULGANDOLASMATEMATICAS";
-            //String llave   = "BCDAEFBAG";
-
+            
             // 1. Texto original
             System.out.println("Texto original:     " + mensaje);
             System.out.println("Llave:              " + llave);
