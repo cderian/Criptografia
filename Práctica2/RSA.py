@@ -7,13 +7,18 @@ import SolovayStrassenPT
 
 p = 0
 q = 0
-n = 0
+N = 0
 phi = 0
 e = 0
 d = 0
 bitlength = 150
 blocksize = 256
 
+'''
+ * Genera las claves pública y privada para RSA
+ * Llave pública = (N, e)
+ * Llave privada = (N, d)
+'''
 def rsa():
 	# 1. Dos números primos aleatorios
 	p = random.getrandbits(bitlength)
@@ -23,17 +28,20 @@ def rsa():
 		p = random.getrandbits(bitlength)
 		q = random.getrandbits(bitlength)
 
-	#print "p = " + str(p)
-	#print "q = " + str(q)
+	print "\nGenerando primos aleatorios:"
+	print "p = ",p
+	print "q = ",q
 
-	# 2. Se calcula n=p*q
-	n = p*q;
-	#print "n = p*q = " + str(n)
+	# 2. Se calcula N = p*q
+	N = p*q;
+	print "\nGenerando N:"
+	print "N = p*q = ",N
 
 	# 3. Se calcula la función de Euler
-	# Phi(n) = (p-1)*(q-1)
+	# Phi(N) = (p-1)*(q-1)
 	phi = (p-1)*(q-1)
-	#print "phi = (p-1)*(q-1) = " + str(phi)
+	print "\nCalculando la función de Euler:"
+	print "phi(N) = (p-1)*(q-1) = ",phi
 
 	# 4. Entero positivo 'e' < phi y que sea coprimo
 	e = random.getrandbits(bitlength/2)
@@ -42,11 +50,17 @@ def rsa():
 
 	while not( Algebra.mcd(e, phi) == 1 ):
 		e = e+1
-	#print "e = " + str(e) + " < " + str(phi)
+	print "\nGenerando e < phi:"
+	print "e = ", e," < ", phi
 
-	# 5. Se determina 'd' que satisfaga la congruencia e*d=1(mod phi(n))
-	#d = Algebra.inv_mult(e, phi)
-	#print d
+	# 5. Se determina 'd' que satisfaga la congruencia e*d = 1 (mod phi(N))
+	d = Algebra.invMultMod(e, phi)
+	print "\nGenerando d:"
+	print "d = ",d
+
+	#Imprimiendo llaves al usuario
+	print "Llave pública = (N, e) = (", N, ", ", e, ")"
+	print "Llave privada = (N, d) = (", N, ", ", d, ")\n"
 
 '''
  * c = c.pow(d) mod n
@@ -58,4 +72,9 @@ def rsa():
 '''
 #def decrypt(message):
 
-rsa()
+'''
+ * Método principal
+'''
+if __name__ == '__main__':
+	print "Algoritmo RSA"
+	rsa()
