@@ -65,8 +65,10 @@ def rsa():
 '''
  * c = c.pow(d) mod n
 '''
-#def encrypt(message):
-
+#
+def encrypt(message):
+    cipher = [(ord(char) ** e) % N for char in message]
+    return cipher
 '''
  * m = c.pow(d) mod n
 '''
