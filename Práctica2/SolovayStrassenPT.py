@@ -3,7 +3,6 @@
 '''
  * Title       : Test de Primalidad de Solovay Strassen
  * Language    : Python
- * By          : cderian
  * Description : Dado un número entero, determina si es primo o compuesto.
 '''
 import random

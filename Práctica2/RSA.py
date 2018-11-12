@@ -1,11 +1,16 @@
 #! /usr/bin/env python
 #-*- coding: utf-8 -*-
 
+'''
+ Integrantes: 
+ 	Bernabé Gómez Luis Gerardo
+ 	Hidalgo López Diana Giselle
+'''
 import random
 import Algebra
 import SolovayStrassenPT
 
-bitlength = 150
+bitlength = 10
 
 '''
  * Genera las claves pública y privada para RSA
@@ -62,12 +67,14 @@ def rsa():
 '''
 def encrypt(message, N, e):
     cipher = [int((ord(char) ** e) % N) for char in message]
+    #cipher = [Algebra.expMod((ord(char)), e, N) for char in message]
     return cipher
 '''
  * m = c.pow(d) mod n
 '''
 def decrypt(message, N, d):
 	decipher = [ chr(int((char ** d) % N)) for char in message]
+	#decipher = [chr( Algebra.expMod(char, d, N)) for char in message]
 	return ''.join(decipher)
 
 '''
