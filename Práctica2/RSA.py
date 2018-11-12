@@ -5,14 +5,7 @@ import random
 import Algebra
 import SolovayStrassenPT
 
-p = 0
-q = 0
-N = 0
-phi = 0
-e = 0
-d = 0
 bitlength = 150
-blocksize = 256
 
 '''
  * Genera las claves pública y privada para RSA
@@ -62,21 +55,33 @@ def rsa():
 	print "Llave pública = (N, e) = (", N, ", ", e, ")"
 	print "Llave privada = (N, d) = (", N, ", ", d, ")\n"
 
+	return p, q, N, phi, e, d
+
 '''
- * c = c.pow(d) mod n
+ * c = c.pow(e) mod n
 '''
-#
-def encrypt(message):
-    cipher = [(ord(char) ** e) % N for char in message]
+def encrypt(message, N, e):
+    cipher = [int((ord(char) ** e) % N) for char in message]
     return cipher
 '''
  * m = c.pow(d) mod n
 '''
-#def decrypt(message):
+def decrypt(message, N, d):
+	decipher = [ chr(int((char ** d) % N)) for char in message]
+	return ''.join(decipher)
 
 '''
  * Método principal
 '''
 if __name__ == '__main__':
 	print "Algoritmo RSA"
-	rsa()
+	p, q, N, phi, e, d = rsa()
+
+	message = "ESTNDESCIFRANDORSABUENASUERTE"
+	print "Mensaje: ", message,"\n"
+
+	m_cod = encrypt(message, N, e)
+	print "Mensaje cifrado: ",m_cod, "\n"
+
+	m_decod = decrypt(m_cod, N, d)
+	print "Mensaje descifrado: ",m_decod, "\n"
