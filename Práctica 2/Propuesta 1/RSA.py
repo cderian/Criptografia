@@ -1,12 +1,6 @@
 #! /usr/bin/env python
 #-*- coding: utf-8 -*-
 
-'''
- Integrantes: 
- 	Nolasco Botello María Dadmy
- 	Estrada Gómez César Derian
-'''
-
 import random
 from util import generar_primo
 from util import ex

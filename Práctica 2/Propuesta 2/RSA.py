@@ -1,11 +1,6 @@
 #! /usr/bin/env python
 #-*- coding: utf-8 -*-
 
-'''
- Integrantes: 
- 	Bernabé Gómez Luis Gerardo
- 	Estrada Gómez César Derian
-'''
 import random
 import Algebra
 import SolovayStrassenPT
