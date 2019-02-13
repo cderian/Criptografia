@@ -4,7 +4,7 @@
 '''
  Integrantes: 
  	Bernabé Gómez Luis Gerardo
- 	Hidalgo López Diana Giselle
+ 	Estrada Gómez César Derian
 '''
 import random
 import Algebra
